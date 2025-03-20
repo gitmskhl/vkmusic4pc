@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>660</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>660</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QListWidget {
+	background-color: rgba(0, 0, 0, 100);
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+	padding: 10px 5px ;
+}
+
+QListWidget::item {
+	color: rgb(255, 255, 255);
+	padding: 5px 5px 5px 10px;
+	height: 15px;
+}
+
+QListWidget::item:selected {
+	background-color: rgba(255, 100, 0, 100);
+	border-radius: 7px;
+}
+
+QSlider::groove {
+	height: 5px;
+	border-radius: 5px;	
+	background-color: rgba(255, 255, 255, 100);
+}
+
+QSlider::handle {
+	background-color: rgba(0, 0, 0, 200);
+	border: none;
+	border-radius: 5px;
+	width: 10px;
+	height: 10px;
+	margin: -3px 0;
+}
+
+QSlider::sub-page {
+	background-color: rgba(0, 50, 200, 100);
+}
+
+QPushButton{
+	background-color: rgba(0, 0, 0, 0);
+	color: rgb(255, 255, 255);
+	border: none;
+	border-radius: 10px;
+}
+
+QPushButton:hover{
+	background-color: rgba(0,0,0, 50);
+}
+
+
+QPushButton#add_button:hover {
+	background-color: rgba(0,0,0, 0);
+}</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>660</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/image/Gemini_Generated_Image_f3aimyf3aimyf3ai.jpeg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QSlider" name="main_slider">
+    <property name="geometry">
+     <rect>
+      <x>29</x>
+      <y>430</y>
+      <width>601</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="play_button">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>460</y>
+      <width>88</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="res.qrc">
+      <normaloff>:/image/play-button-arrowhead.png</normaloff>:/image/play-button-arrowhead.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="next_button">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>460</y>
+      <width>88</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="res.qrc">
+      <normaloff>:/image/next.png</normaloff>:/image/next.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back_button">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>460</y>
+      <width>88</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="res.qrc">
+      <normaloff>:/image/back.png</normaloff>:/image/back.png</iconset>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="playlist">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>31</y>
+      <width>591</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QSlider" name="volume_slider">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>460</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_button">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>460</y>
+      <width>41</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="res.qrc">
+      <normaloff>:/image/add.png</normaloff>:/image/add.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
