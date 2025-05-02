@@ -13,6 +13,10 @@ class PlayerWindow(QDialog):
         self.player = QtMultimedia.QMediaPlayer()
         self.audiooutput = QtMultimedia.QAudioOutput()
         self.audiooutput.setVolume(1)
+        self.ui.verticalSlider.setValue(100)
+        self.ui.verticalSlider.sliderMoved.connect(self.volume)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.moveSlider)
         self.player.setAudioOutput(self.audiooutput)
         self.ui.pushButton_7.clicked.connect(self.play)
         self.fileNames = []
@@ -27,5 +31,12 @@ class PlayerWindow(QDialog):
         fileName = self.fileNames[idx]
         self.player.setSource(QtCore.QUrl.fromLocalFile(fileName))
         self.player.play()
+        self.timer.start(100)
+    def volume(self, newValue):
+        self.audiooutput.setVolume(newValue/100)
+    def moveSlider(self):
+        self.ui.horizontalSlider.setValue(self.player.position()/self.player.duration()*100)
+        
+
 
         
