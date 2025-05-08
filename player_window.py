@@ -3,6 +3,7 @@ from interface_ui import Ui_Dialog
 import os
 from PySide6 import QtMultimedia, QtCore
 
+
 class PlayerWindow(QDialog):
     def __init__(self):
         super().__init__()
@@ -30,7 +31,6 @@ class PlayerWindow(QDialog):
         self.ui.horizontalSlider.sliderMoved.connect(self.musicMoved)
 
         self.fileNames = []
-        self.ui.horizontalSlider.mousePressEvent = self.mousePressEvent
 
     def addFiles(self):
         fileNames = QFileDialog.getOpenFileNames(None, 'Выберите файл', '', 'Audio Files (*.mp3 *.wav *.ogg)')
@@ -78,19 +78,3 @@ class PlayerWindow(QDialog):
     def musicMoved(self, pos):
         self.player.setPosition(pos)
     
-    
-    def mousePressEvent(self, event):
-        if event.button() == QtCore.Qt.MouseButton.LeftButton:
-            click_global_pos = event.globalPosition().toPoint()
-            slider_pos = self.ui.horizontalSlider.mapFromGlobal(click_global_pos)
-            click_relative_x = slider_pos.x()
-
-            slider = self.ui.horizontalSlider
-            slider_range = slider.maximum() - slider.minimum()
-            slider_value = int((click_relative_x / slider.width()) * slider_range) + slider.minimum()
-            slider.setValue(slider_value)
-            self.player.setPosition(slider_value)
-
-            self.ui.horizontalSlider.setSliderDown(True)
-
-        super(QSlider, self.ui.horizontalSlider).mousePressEvent(event)

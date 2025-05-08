@@ -21,6 +21,31 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QWidget)
 import resource_rc
 
+from PySide6.QtWidgets import QSlider, QStyle, QStyleOptionSlider
+from PySide6.QtCore    import Qt, QPoint
+
+class ClickableSlider(QSlider):
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            val = QStyle.sliderValueFromPosition(
+                self.minimum(), self.maximum(),
+                event.position().toPoint().x(),
+                self.width()
+            )
+            self.setValue(val)
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() & Qt.LeftButton:
+            val = QStyle.sliderValueFromPosition(
+                self.minimum(), self.maximum(),
+                event.position().toPoint().x(),
+                self.width()
+            )
+            self.setValue(val)
+        super().mouseMoveEvent(event)
+
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
@@ -197,7 +222,7 @@ class Ui_Dialog(object):
 
         self.verticalLayout_3.addWidget(self.pushButton_7, 0, Qt.AlignHCenter)
 
-        self.horizontalSlider = QSlider(self.frame_9)
+        self.horizontalSlider = ClickableSlider(self.frame_9)
         self.horizontalSlider.setObjectName(u"horizontalSlider")
         self.horizontalSlider.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.horizontalSlider.setOrientation(Qt.Horizontal)
