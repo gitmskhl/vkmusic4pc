@@ -39,11 +39,12 @@ class PlayerWindow(QDialog):
             self.fileNames.append(i)
 
 
-    def play(self, is_pause: True):
+    def play(self, is_pause = True):
         if is_pause == True:
+            # не оч понял, зачем еще раз проверять одно и тоеж
             if self.player.playbackState() == QtMultimedia.QMediaPlayer.PausedState:
                 self.player.play()
-            else:
+            else: # тут же наоборот чекается, что музыка играла, значит ее надо остановить, а ниже она включается
                 idx = self.ui.listWidget.currentRow()
                 fileName = self.fileNames[idx]
                 self.player.setSource(QtCore.QUrl.fromLocalFile(fileName))
@@ -53,8 +54,8 @@ class PlayerWindow(QDialog):
                 self.timer.start(10)
         else:
             self.player.pause()
-            self.timer.stop
-            self.player.setPosition(self.player.position()) 
+            self.timer.stop() # это вроде функция, тут было self.timer.stop
+            self.player.setPosition(self.player.position())  # зачем?
     
 
     def volume(self, newValue=None):
