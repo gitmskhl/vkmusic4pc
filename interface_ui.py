@@ -21,6 +21,60 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QWidget)
 import resource_rc
 
+from PySide6.QtWidgets import QSlider, QStyle, QStyleOptionSlider
+from PySide6.QtCore    import Qt, QPoint
+
+class ClickableSlider(QSlider):
+    def __init__(self, parent=None, byX=True, autoSetValue=False):
+        super().__init__(parent)
+        self.active = False
+        self.has_been_activated = False
+        self.byX = byX
+        self.autoSetValue = autoSetValue
+
+    def mousePressEvent(self, event):
+        self.active = True
+        if event.button() == Qt.LeftButton:
+            if self.byX:
+                val = QStyle.sliderValueFromPosition(
+                    self.minimum(), self.maximum(),
+                    event.position().toPoint().x(),
+                    self.width()
+                )
+            else:
+                val = QStyle.sliderValueFromPosition(
+                    self.minimum(), self.maximum(),
+                    event.position().toPoint().y(),
+                    self.height()
+                )
+                val = 100 - val
+            self.setValue(val)
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() & Qt.LeftButton:
+            if self.byX:
+                val = QStyle.sliderValueFromPosition(
+                    self.minimum(), self.maximum(),
+                    event.position().toPoint().x(),
+                    self.width()
+                )
+            else:
+                val = QStyle.sliderValueFromPosition(
+                    self.minimum(), self.maximum(),
+                    event.position().toPoint().y(),
+                    self.height()
+                )
+                val = 100 - val
+            self.setValue(val)
+        self.active = True
+        super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, ev):
+        self.active = False
+        self.has_been_activated = True
+        return super().mouseReleaseEvent(ev)
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
@@ -197,7 +251,7 @@ class Ui_Dialog(object):
 
         self.verticalLayout_3.addWidget(self.pushButton_7, 0, Qt.AlignHCenter)
 
-        self.horizontalSlider = QSlider(self.frame_9)
+        self.horizontalSlider = ClickableSlider(self.frame_9)
         self.horizontalSlider.setObjectName(u"horizontalSlider")
         self.horizontalSlider.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.horizontalSlider.setOrientation(Qt.Horizontal)
@@ -250,7 +304,7 @@ class Ui_Dialog(object):
 
         self.horizontalLayout_5.addWidget(self.pushButton_8)
 
-        self.verticalSlider = QSlider(self.frame_10)
+        self.verticalSlider = ClickableSlider(self.frame_10, byX=False)
         self.verticalSlider.setObjectName(u"verticalSlider")
         self.verticalSlider.setMaximumSize(QSize(16777215, 50))
         self.verticalSlider.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))

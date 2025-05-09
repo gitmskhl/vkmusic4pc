@@ -17,15 +17,14 @@ class PlayerWindow(QDialog):
         self.audiooutput.setVolume(1)
         self.ui.verticalSlider.setValue(100)
         self.ui.verticalSlider.sliderMoved.connect(self.volume)
-        #self.ui.verticalSlider.sliderMoved.connect(self.volume_off)
-        #self.ui.pushButton_8.clicked.connect(self.volume_off)
+        self.ui.verticalSlider.valueChanged.connect(self.volume)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.moveSlider)
         self.player.setAudioOutput(self.audiooutput)
         self.ui.pushButton_7.clicked.connect(self.play)
         self.ui.horizontalSlider.sliderMoved.connect(self.musicMoved)
         self.fileNames = []
-        self.ui.horizontalSlider.mousePressEvent = self.mousePressEvent
+
     def addFiles(self):
         fileNames = QFileDialog.getOpenFileNames(None, 'Выберите файл', '', 'Audio Files (*.mp3 *.wav *.ogg)')
         for i in fileNames[0]:
@@ -63,17 +62,23 @@ class PlayerWindow(QDialog):
             self.volume(self.saved_volume)'''
     
     def moveSlider(self):
+        if self.ui.horizontalSlider.active or self.ui.horizontalSlider.has_been_activated: 
+            self.musicMoved(self.ui.horizontalSlider.value())
+            self.ui.horizontalSlider.has_been_activated = False
+            return
         self.ui.horizontalSlider.setValue(self.player.position())
+
     def musicMoved(self, pos):
         self.player.setPosition(pos)
-    def mousePressEvent(self, event):
-        value = self.ui.horizontalSlider.minimum() + ((self.ui.horizontalSlider.maximum() - self.ui.horizontalSlider.minimum()) * event.position().x()) / self.ui.horizontalSlider.width()
-        self.ui.horizontalSlider.setValue(int(value))
-        self.player.setPosition(int(value))
-        event.accept()
-        global_pos = self.ui.horizontalSlider.mapToGlobal(self.ui.horizontalSlider.pos())
-        print(global_pos)
-        print(event.position().x())
+
+    # def mousePressEvent(self, event):
+    #     value = self.ui.horizontalSlider.minimum() + ((self.ui.horizontalSlider.maximum() - self.ui.horizontalSlider.minimum()) * event.position().x()) / self.ui.horizontalSlider.width()
+    #     self.ui.horizontalSlider.setValue(int(value))
+    #     self.player.setPosition(int(value))
+    #     event.accept()
+    #     global_pos = self.ui.horizontalSlider.mapToGlobal(self.ui.horizontalSlider.pos())
+    #     print(global_pos)
+    #     print(event.position().x())
         
 
 
