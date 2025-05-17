@@ -24,6 +24,8 @@ class PlayerWindow(QDialog):
         self.ui.pushButton_7.clicked.connect(self.play)
         self.ui.horizontalSlider.sliderMoved.connect(self.musicMoved)
         self.fileNames = []
+        self.ui.listWidget.itemDoubleClicked.connect(self.play_selected)
+        self.current_index = -1
 
     def addFiles(self):
         fileNames = QFileDialog.getOpenFileNames(None, 'Выберите файл', '', 'Audio Files (*.mp3 *.wav *.ogg)')
@@ -31,6 +33,13 @@ class PlayerWindow(QDialog):
             print(i)
             self.ui.listWidget.addItem(os.path.basename(i))
             self.fileNames.append(i)
+
+    def play_selected(self):
+        self.current_index = self.ui.listWidget.currentRow()
+        if 0 <= self.current_index < len(self.fileNames):
+            self.player.setSource(QtCore.QUrl.fromLocalFile(self.fileNames[self.current_index]))
+            self.player.play()
+            
 
     def play(self, is_pause: True):
         if is_pause == True:
