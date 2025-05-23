@@ -30,15 +30,24 @@ class PlayerWindow(QDialog):
     def addFiles(self):
         fileNames = QFileDialog.getOpenFileNames(None, 'Выберите файл', '', 'Audio Files (*.mp3 *.wav *.ogg)')
         for i in fileNames[0]:
-            print(i)
-            self.ui.listWidget.addItem(os.path.basename(i))
-            self.fileNames.append(i)
+            if i not in self.fileNames:
+                print(i)    
+                self.ui.listWidget.addItem(os.path.basename(i))
+                self.fileNames.append(i)
+            else:
+                print(f"Файл {i} уже был добавлен ранее")
 
     def play_selected(self):
         self.current_index = self.ui.listWidget.currentRow()
-        if 0 <= self.current_index < len(self.fileNames):
+        if  self.current_index < len(self.fileNames):
+             # Останавливаем текущее воспроизведение
+            self.player.stop()
+            # Очищаем текущий источник
             self.player.setSource(QtCore.QUrl.fromLocalFile(self.fileNames[self.current_index]))
             self.player.play()
+            # Обновляем слайдер
+            self.ui.horizontalSlider.setRange(0, self.player.duration())
+            self.timer.start(10)
             
 
     def play(self, is_pause: True):
