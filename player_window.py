@@ -26,6 +26,10 @@ class PlayerWindow(QDialog):
         self.fileNames = []
         self.ui.listWidget.itemDoubleClicked.connect(self.play_selected)
         self.current_index = -1
+        self.ui.pushButton_8.clicked.connect(self.toggle_mute)
+
+        self.saved_volume = self.audiooutput.volume()
+        self.is_muted = False 
 
     def addFiles(self):
         fileNames = QFileDialog.getOpenFileNames(None, 'Выберите файл', '', 'Audio Files (*.mp3 *.wav *.ogg)')
@@ -85,6 +89,17 @@ class PlayerWindow(QDialog):
             self.ui.horizontalSlider.has_been_activated = False
             return
         self.ui.horizontalSlider.setValue(self.player.position())
+    
+    def toggle_mute(self):
+        if self.is_muted:
+            # Если звук выключен, включаем и восстанавливаем громкость
+            self.audiooutput.setMuted(False)
+            self.audiooutput.setVolume(self.saved_volume)
+        else:
+            # Если звук включен, сохраняем громкость и отключаем звук
+            self.saved_volume = self.audiooutput.volume()
+            self.audiooutput.setMuted(True)
+        self.is_muted = not self.is_muted
 
     def musicMoved(self, pos):
         self.player.setPosition(pos)
