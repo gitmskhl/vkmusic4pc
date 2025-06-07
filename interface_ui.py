@@ -21,59 +21,9 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QWidget)
 import resource_rc
 
-from PySide6.QtWidgets import QSlider, QStyle, QStyleOptionSlider
-from PySide6.QtCore    import Qt, QPoint
-
-class ClickableSlider(QSlider):
-    def __init__(self, parent=None, byX=True, autoSetValue=False):
-        super().__init__(parent)
-        self.active = False
-        self.has_been_activated = False
-        self.byX = byX
-        self.autoSetValue = autoSetValue
-
-    def mousePressEvent(self, event):
-        self.active = True
-        if event.button() == Qt.LeftButton:
-            if self.byX:
-                val = QStyle.sliderValueFromPosition(
-                    self.minimum(), self.maximum(),
-                    event.position().toPoint().x(),
-                    self.width()
-                )
-            else:
-                val = QStyle.sliderValueFromPosition(
-                    self.minimum(), self.maximum(),
-                    event.position().toPoint().y(),
-                    self.height()
-                )
-                val = 100 - val
-            self.setValue(val)
-        super().mousePressEvent(event)
-
-    def mouseMoveEvent(self, event):
-        if event.buttons() & Qt.LeftButton:
-            if self.byX:
-                val = QStyle.sliderValueFromPosition(
-                    self.minimum(), self.maximum(),
-                    event.position().toPoint().x(),
-                    self.width()
-                )
-            else:
-                val = QStyle.sliderValueFromPosition(
-                    self.minimum(), self.maximum(),
-                    event.position().toPoint().y(),
-                    self.height()
-                )
-                val = 100 - val
-            self.setValue(val)
-        self.active = True
-        super().mouseMoveEvent(event)
-
-    def mouseReleaseEvent(self, ev):
-        self.active = False
-        self.has_been_activated = True
-        return super().mouseReleaseEvent(ev)
+# --- ИЗМЕНЕНИЕ: Импортируем ClickableSlider из отдельного файла ---
+from clickable_slider import ClickableSlider
+# -----------------------------------------------------------------
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -446,4 +396,3 @@ class Ui_Dialog(object):
         self.label_2.setText(QCoreApplication.translate("Dialog", u"next song", None))
         self.pushButton_3.setText("")
     # retranslateUi
-
